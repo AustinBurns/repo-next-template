@@ -1,10 +1,11 @@
 import "./globals.css";
+
 import { Analytics } from "@vercel/analytics/react";
 import cx from "classnames";
 import { sfPro, inter } from "./fonts";
-import Nav from "@shared/infrastructure/container/layout/nav";
 import Footer from "@shared/infrastructure/container/layout/footer";
 import { Suspense } from "react";
+import NavBar from "@shared/infrastructure/container/layout/navbar";
 
 // todo - update metadata
 export const metadata = {
@@ -18,7 +19,7 @@ export const metadata = {
       "Precedent is the all-in-one solution for your Next.js project. It includes a design system, authentication, analytics, and more.",
     creator: "@steventey",
   },
-  metadataBase: new URL("https://precedent.dev"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL!),
   themeColor: "#FFF",
 };
 
@@ -34,8 +35,7 @@ export default async function RootLayout({
       <body className={cx(sfPro.variable, inter.variable)}>
         <div className="fixed h-screen w-full bg-gradient-to-br from-indigo-50 via-white to-slate-200" />
         <Suspense fallback="...">
-          {/* @ts-expect-error Server Component */}
-          <Nav />
+          <NavBar />
         </Suspense>
         <main className="flex min-h-screen w-full flex-col items-center justify-center py-16">
           {children}

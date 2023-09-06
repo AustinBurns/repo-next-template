@@ -2,19 +2,26 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useSignInModal } from "./sign-in-modal";
-import UserDropdown from "./user-dropdown";
-import { Session } from "next-auth";
 import { useWindowScroll } from "@uidotdev/usehooks";
-import { isNumber } from "@austinburns/type-guards";
+import { isNonEmptyString, isNotNil, isNumber } from "@austinburns/type-guards";
+import { useRouter } from "next/navigation";
 
-export default function NavBar({ session }: { session: Session | null }) {
-  const { SignInModal, setShowSignInModal } = useSignInModal();
+import { useClientSideAuthCheck } from "@lib/supabase/hooks/useClientSideAuthCheck";
+
+import UserDropdown from "./user-dropdown";
+
+export default function NavBar() {
   const [{ y }] = useWindowScroll();
+  const router = useRouter();
+  const { sessionData, supabase } = useClientSideAuthCheck({
+    onUnauthenticated: () => {
+      // noop — server components are likely already handling the redirect
+      // see app/member/generate-meal-options/page.tsx for reference example
+    },
+  });
 
   return (
     <>
-      <SignInModal />
       <div
         className={`fixed top-0 w-full ${
           isNumber(y) && y > 50
@@ -34,16 +41,16 @@ export default function NavBar({ session }: { session: Session | null }) {
             <p>Precedent</p>
           </Link>
           <div>
-            {session ? (
-              <UserDropdown session={session} />
-            ) : (
-              <button
-                className="rounded-full border border-black bg-black p-1.5 px-4 text-sm text-white transition-all hover:bg-white hover:text-black"
-                onClick={() => setShowSignInModal(true)}
-              >
-                Sign In
-              </button>
-            )}
+            {isNotNil(sessionData) &&
+              isNonEmptyString(sessionData.user?.email) && (
+                <UserDropdown
+                  handleSignOut={async () => {
+                    await supabase.auth.signOut();
+                    router.refresh();
+                  }}
+                  email={sessionData.user.email}
+                />
+              )}
           </div>
         </div>
       </div>

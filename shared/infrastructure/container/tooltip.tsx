@@ -3,7 +3,7 @@
 import { ReactNode, useState } from "react";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import Leaflet from "./leaflet";
-import { useViewportSize } from "@lib/hooks/useViewportSize";
+import { useViewportSize } from "@shared/infrastructure/hooks/useViewportSize";
 
 export default function Tooltip({
   children,

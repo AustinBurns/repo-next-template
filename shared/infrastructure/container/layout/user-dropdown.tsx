@@ -1,18 +1,25 @@
 "use client";
 
 import { useState } from "react";
-import { signOut } from "next-auth/react";
-import { LayoutDashboard, LogOut, CheckSquare } from "lucide-react";
+import {
+  ScrollIcon,
+  LogOut,
+  ListTodoIcon,
+  ChefHatIcon,
+  SettingsIcon,
+} from "lucide-react";
 import Popover from "@shared/infrastructure/container/popover";
 import Image from "next/image";
-import { Session } from "next-auth";
 import Link from "next/link";
 
-export default function UserDropdown({ session }: { session: Session }) {
-  const { email, image } = session?.user || {};
+export default function UserDropdown({
+  handleSignOut,
+  email,
+}: {
+  handleSignOut: () => void;
+  email: string;
+}) {
   const [openPopover, setOpenPopover] = useState(false);
-
-  if (!email) return null;
 
   return (
     <div className="relative inline-block text-left">
@@ -20,22 +27,36 @@ export default function UserDropdown({ session }: { session: Session }) {
         content={
           <div className="w-full rounded-md bg-white p-2 sm:w-56">
             <Link
-              href="/member/dashboard"
+              href="/member/generate-meal-options"
               className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100"
             >
-              <LayoutDashboard className="h-4 w-4" />
-              <p className="text-sm">Dashboard</p>
+              <ChefHatIcon className="h-4 w-4" />
+              <p className="text-sm">Generate meal options</p>
             </Link>
             <Link
-              href="/member/check-in"
+              href="/member/current-meal-plan"
               className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100"
             >
-              <CheckSquare className="h-4 w-4" />
-              <p className="text-sm">Check-in</p>
+              <ScrollIcon className="h-4 w-4" />
+              <p className="text-sm">Current meal plan</p>
+            </Link>
+            <Link
+              href="/member/pantry-items"
+              className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100"
+            >
+              <ListTodoIcon className="h-4 w-4" />
+              <p className="text-sm">Pantry items</p>
+            </Link>
+            <Link
+              href="/member/settings"
+              className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100"
+            >
+              <SettingsIcon className="h-4 w-4" />
+              <p className="text-sm">Settings</p>
             </Link>
             <button
               className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100"
-              onClick={() => signOut()}
+              onClick={() => handleSignOut()}
             >
               <LogOut className="h-4 w-4" />
               <p className="text-sm">Logout</p>
@@ -52,7 +73,7 @@ export default function UserDropdown({ session }: { session: Session }) {
         >
           <Image
             alt={email}
-            src={image || `https://avatars.dicebear.com/api/micah/${email}.svg`}
+            src={`https://avatars.dicebear.com/api/micah/${email}.svg`}
             width={40}
             height={40}
           />

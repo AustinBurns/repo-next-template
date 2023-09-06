@@ -3,7 +3,7 @@
 import { Dispatch, SetStateAction, ReactNode } from "react";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import Leaflet from "./leaflet";
-import { useViewportSize } from "@lib/hooks/useViewportSize";
+import { useViewportSize } from "@shared/infrastructure/hooks/useViewportSize";
 
 export default function Popover({
   children,
