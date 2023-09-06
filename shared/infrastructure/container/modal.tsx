@@ -10,7 +10,7 @@ import {
 import FocusTrap from "focus-trap-react";
 import { AnimatePresence, motion } from "framer-motion";
 import Leaflet from "./leaflet";
-import { useViewportSize } from "@lib/hooks/useViewportSize";
+import { useViewportSize } from "@shared/infrastructure/hooks/useViewportSize";
 
 export default function Modal({
   children,
