@@ -12,7 +12,7 @@
     "dev:env-file": "yarn dotenv -e ./.env -e ./.env.local -e ./.env.development.local -e ./.vercel/.env.development.local"
   },
   "dependencies": {
-    "@austinburns/type-guards": "^1.0.2",
+    "@austinburns/type-guards": "^1.0.4",
     "@heroicons/react": "^2.0.18",
     "@radix-ui/react-form": "^0.0.3",
     "@radix-ui/react-popover": "^1.0.2",
